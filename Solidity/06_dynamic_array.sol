@@ -24,4 +24,12 @@ contract DynamicArrays{
     function popElement() public{
         numbers.pop();
     }
+
+    function f() public pure{
+        uint[] memory y = new uint[](3);
+        y[0] = 10;
+        y[1] = 20;
+        y[2] = 30;
+        numbers = y;
+    }
 }
