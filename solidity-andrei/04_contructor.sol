@@ -6,6 +6,7 @@ contract Property {
     int256 public price;
     string public location;
     address public owner;
+    int256 immutable area = 100; // no one will be able to change
 
     constructor(int256 _price, string memory _location) {
         price = _price;
