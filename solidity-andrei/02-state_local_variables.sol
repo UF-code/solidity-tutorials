@@ -3,6 +3,7 @@
 pragma solidity >=0.5.0 <0.9.0;
 
 contract Property {
+    // state
     int256 public price = 100;
 
     // strings are stored in storage, memory, calldata not in the stack
@@ -11,6 +12,7 @@ contract Property {
 
     // price = 100; is not allowed in solidity
 
+    // local
     // pure does not modify the blockchain neither effects it's allocated on stack
     function f1() public pure returns (int256) {
         int256 x = 5;
