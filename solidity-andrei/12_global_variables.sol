@@ -21,4 +21,15 @@ contract GlobalVariables {
     function getBalance() public view returns (uint256) {
         return address(this).balance;
     }
+
+    function howMuchGas() public view returns (uint256) {
+        uint256 start = gasleft();
+        uint256 j = 1;
+        for (uint256 i = 1; i < 20; i++) {
+            j *= i;
+        }
+
+        uint256 end = gasleft();
+        return start - end;
+    }
 }
