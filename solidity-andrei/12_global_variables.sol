@@ -33,3 +33,10 @@ contract GlobalVariables {
         return start - end;
     }
 }
+
+contract GlobalVariables2 {
+    uint256 public this_moment = block.timestamp;
+    uint256 public block_number = block.number;
+    uint256 public difficulty = block.difficulty;
+    uint256 public gaslimit = block.gaslimit;
+}
