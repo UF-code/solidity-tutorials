@@ -37,8 +37,5 @@ contract Deposit{
             return false;
         }
     }
-
-
-
-
+    
 }
