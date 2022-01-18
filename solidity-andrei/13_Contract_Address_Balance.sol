@@ -21,6 +21,15 @@ contract Deposit{
         x++;
     }
 
+    function transferEther(address payable recipient, uint amount) public returns(bool){
+        if ( amount <= getBalance()){
+            recipient.transfer(amount);
+            return true;
+        } else{
+            return false;
+        }
+    }
+
 
 
 
