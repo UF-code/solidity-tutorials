@@ -23,4 +23,16 @@ contract BuiltinGlobalVariables{
     function getBalance() public view returns(uint){
         return address(this).balance;
     }
+
+    function howMuchGas() public view returns(uint){
+        uint start = gasleft();
+        uint j = 1;
+        for(uint i=1; i<20; i++){
+            j *= i;
+        }
+
+        uint end = gasleft();
+        // how much gas it used in this code block
+        return start - end;
+    }
 }
