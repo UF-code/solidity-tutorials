@@ -32,4 +32,17 @@ contract Lottery{
     }
     // Chainlink VRF to Generate Real Random Variables
 
+    function pickWinner() public {
+        require(manager == msg.sender);
+        require(players.length >= 3);
+
+        uint r = random();
+        address payable winner;
+
+        uint index = r % players.length;
+        winner = players[index];
+
+        winner.transfer(getBalance());
+    }
+
 }
