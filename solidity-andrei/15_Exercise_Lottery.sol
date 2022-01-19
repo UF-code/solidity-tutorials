@@ -29,13 +29,19 @@ contract Lottery{
 
     function getBalance() public view returns(uint){
         require(msg.sender == manager);
-        return address(this).balance;
+        return (90 * address(this).balance)/100;
     }
 
     function random() public view returns(uint){
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players.length)));
     }
     // Chainlink VRF to Generate Real Random Variables
+
+    function managerFee() public view returns(uint){
+        return (10 * address(this).balance)/100;
+    }
+
+
 
     function pickWinner() public {
         // require(manager == msg.sender);
@@ -47,6 +53,9 @@ contract Lottery{
         uint index = r % players.length;
         winner = players[index];
 
+        // Manager Fee
+        payable(manager).transfer(managerFee());
+        // Winners Price
         winner.transfer(getBalance());
         players = new address payable[](0);
     }
