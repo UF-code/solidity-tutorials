@@ -17,10 +17,13 @@ contract Lottery{
     // Visibility must be external 
     // Must be payable
     receive() external payable{
+        // 1000000000000000000 wei is a 1 ether
+        require(msg.value >= 1 ether);
         players.push(payable(msg.sender));
     }
 
     function getBalance() public view returns(uint){
+        require(msg.sender == manager);
         return address(this).balance;
     }
 }
