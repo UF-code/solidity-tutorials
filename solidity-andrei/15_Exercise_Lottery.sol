@@ -19,6 +19,8 @@ contract Lottery{
     receive() external payable{
         // 1000000000000000000 wei is a 1 ether
         require(msg.value >= 1 ether);
+        require(msg.sender != manager);
+        
         players.push(payable(msg.sender));
     }
 
