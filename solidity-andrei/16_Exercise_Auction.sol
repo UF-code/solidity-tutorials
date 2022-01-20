@@ -99,6 +99,8 @@ contract Auction{
                 }
             }
         }
+        bids[recipient] = 0;
+     
         recipient.transfer(value);
     }
 
