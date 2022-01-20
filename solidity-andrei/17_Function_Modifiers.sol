@@ -12,11 +12,16 @@ contract Property{
         owner = msg.sender;
     }
 
-    function changeOwner(address _owner) public{
+    modifier onlyOwner(){
+        require(owner == msg.sender);
+        _;
+    }
+    
+    function changeOwner(address _owner) public onlyOwner{
         owner = _owner;
     }
 
-    function setPrice(uint _price) public{
+    function setPrice(uint _price) public onlyOwner{
         price = _price;
     }
 }
