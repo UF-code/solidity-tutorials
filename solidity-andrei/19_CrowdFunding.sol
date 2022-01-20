@@ -6,6 +6,7 @@ contract CrowdFunding{
     mapping(address => uint) public contributors;
     address public admin;
     uint public noOfContributors;
+    uint public minimumContribution;
     uint public deadline; // timestamp
     uint public goal;
     uint public raisedAmount;
@@ -18,5 +19,25 @@ contract CrowdFunding{
         admin = msg.sender;
     }
 
+
+    function contribute() public payable{
+        require(block.timestamp < deadline, "Deadline Has Passed!!");
+        require(msg.value >= minimumContribution, "Minimum Contribution Not Met!!");
+    
+        if(contributors[msg.sender] == 0){
+            noOfContributors++;
+        }
+
+        contributors[msg.sender] += msg.value;
+        raisedAmount += msg.value;
+    }
+
+    receive() payable external{
+        contribute();
+    }
+
+    function getBalance() public view returns(uint){
+        return address(this).balance;
+    }
 
 }
