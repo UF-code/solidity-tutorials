@@ -80,4 +80,13 @@ contract CrowdFunding{
         newRequest.noOfVoters = 0; 
     }
 
+    function voteRequest(uint _requestNo) public{
+        require(contributors[msg.sender] > 0, "You Must Be a Contributor to Vote!!");
+        Request storage thisRequest = requests[_requestNo];
+
+        require(thisRequest.voters[msg.sender] == false, "You Have Already Voted!!");
+        thisRequest.voters[msg.sender] = true;
+        thisRequest.noOfVoters++;
+    }
+
 }
