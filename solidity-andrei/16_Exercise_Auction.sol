@@ -26,6 +26,10 @@ contract Auction{
         bidIncrement = 100;
     }
 
+    modifier onlyOwner(){
+        require(msg.sender == owner);
+        _;
+    }
 
     modifier notOwner(){
         require(msg.sender != owner);
@@ -48,6 +52,10 @@ contract Auction{
         }else {
             return b;
         }
+    }
+
+    function cancelAuction() public onlyOwner{
+        auctionState = State.Canceled;
     }
 
     function placeBid() public payable notOwner afterStart beforeEnd{
