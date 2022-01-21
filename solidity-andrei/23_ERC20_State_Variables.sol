@@ -46,7 +46,7 @@ contract Cryptos is ERC20Interface{
         return balances[tokenOwner];
     }
 
-    function transfer(address to, uint tokens) public override returns(bool success){
+    function transfer(address to, uint tokens) public virtual override returns(bool success){
         require(balances[msg.sender] >= tokens);
 
         balances[to] += tokens;
@@ -71,7 +71,7 @@ contract Cryptos is ERC20Interface{
         return true;
     }
 
-    function transferFrom(address from, address to, uint tokens) public override returns (bool success){
+    function transferFrom(address from, address to, uint tokens) public virtual override returns (bool success){
         require(allowed[from][to] >= tokens);
         require(balances[from] >= tokens);
 
@@ -134,6 +134,47 @@ contract CryptosICO is Cryptos{
             return State.afterEnd;
         }
     }
+
+
+    event Invest(address investor, uint value, uint tokens);
+    
+    function invest() payable public returns(bool){
+        icoState = getCurrentState();
+        require(icoState == State.running);
+
+        require(msg.value >= minInvestment && msg.value <= maxInvestment);
+        raisedAmount += msg.value;
+        require(raisedAmount <= hardCap);
+
+        uint tokens = msg.value / tokenPrice;
+
+        balances[msg.sender] += tokens;
+        balances[founder] -= tokens;
+        deposit.transfer(msg.value);
+        emit Invest(msg.sender, msg.value, tokens);
+
+        return true;
+    }
+
+    receive() payable external{
+        invest();
+    }
+
+
+    // Adding a 1 Week Halt to Sale After Then ICO
+    function transfer(address to, uint tokens) public override returns(bool success){
+        require(block.timestamp > tokenTradeStart);
+        // super.transfer(to, tokens);
+        Cryptos.transfer(to, tokens);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint tokens) public override returns(bool success){
+        require(block.timestamp > tokenTradeStart);
+        Cryptos.transferFrom(from, to, tokens);
+        return true;
+    }
+
 
 
 }
