@@ -2,7 +2,8 @@
 
 pragma solidity >=0.8.0 <0.9.0;
 
-contract BaseContract{
+// Abstract Contract Can Not Be Deployed on Blockchain
+abstract contract BaseContract{
     int public x;
     address public owner;
 
@@ -11,13 +12,16 @@ contract BaseContract{
         owner = msg.sender;
     }
 
-    function setX(int _x) public{
-        x = _x;
-    }
+    // 
+    function setX(int _x) public virtual;
 
 }
 
 contract A is BaseContract{
     int public y = 3;
-    
+
+    function setX(int _x) public override{
+        x = _x;
+    }
+
 }
