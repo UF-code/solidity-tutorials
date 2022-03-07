@@ -12,4 +12,16 @@ contract Will {
         fortune = msg.value;
         deceased = false;
     }
+
+    // create modifier so the only person who can call the contract is the owner
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    // create modifier so that we only allocate funds if friend's gramps deceased
+    modifier mustBeDeceased() {
+        require(deceased == true);
+        _;
+    }
 }
