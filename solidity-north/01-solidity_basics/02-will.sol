@@ -6,4 +6,10 @@ contract Will {
     address owner;
     uint256 fortune;
     bool deceased;
+
+    constructor() public payable {
+        owner = msg.sender;
+        fortune = msg.value;
+        deceased = false;
+    }
 }
