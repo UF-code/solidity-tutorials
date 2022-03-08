@@ -7,7 +7,7 @@ contract Will {
     uint256 fortune;
     bool isDeceased;
 
-    constructor() public payable {
+    constructor() payable {
         owner = msg.sender;
         fortune = msg.value;
         isDeceased = false;
@@ -29,10 +29,13 @@ contract Will {
     address payable[] familyWallets;
 
     // map through inheritance
-    mapping(address => uint) inheritance;
+    mapping(address => uint256) inheritance;
 
     // set inheritance for each address
-    function setInheritance(address payable wallet, uint amount) public onlyOwner{
+    function setInheritance(address payable wallet, uint256 amount)
+        public
+        onlyOwner
+    {
         // to add wallets to the family wallets .push
         familyWallets.push(wallet);
         inheritance[wallet] = amount;
@@ -40,16 +43,14 @@ contract Will {
 
     // Pay each family member based on their wallet address
     function payout() private mustBeDeceased {
-
-        for(uint i=0; i<familyWallets.length; i++){
+        for (uint256 i = 0; i < familyWallets.length; i++) {
             familyWallets[i].transfer(inheritance[familyWallets[i]]);
         }
     }
 
     // oracle switch simulation
-    function hasDeceased() public onlyOwner{
+    function hasDeceased() public onlyOwner {
         isDeceased = true;
         payout();
     }
-
 }
