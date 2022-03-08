@@ -5,12 +5,12 @@ pragma solidity >=0.7.0 <0.9.0;
 contract Will {
     address owner;
     uint256 fortune;
-    bool deceased;
+    bool isDeceased;
 
     constructor() public payable {
         owner = msg.sender;
         fortune = msg.value;
-        deceased = false;
+        isDeceased = false;
     }
 
     // create modifier so the only person who can call the contract is the owner
@@ -21,7 +21,7 @@ contract Will {
 
     // create modifier so that we only allocate funds if friend's gramps deceased
     modifier mustBeDeceased() {
-        require(deceased == true);
+        require(isDeceased == true);
         _;
     }
 
@@ -32,7 +32,7 @@ contract Will {
     mapping(address => uint) inheritance;
 
     // set inheritance for each address
-    function setInheritance(address payable wallet, uint amount) public {
+    function setInheritance(address payable wallet, uint amount) public onlyOwner{
         // to add wallets to the family wallets .push
         familyWallets.push(wallet);
         inheritance[wallet] = amount;
@@ -44,6 +44,12 @@ contract Will {
         for(uint i=0; i<familyWallets.length; i++){
             familyWallets[i].transfer(inheritance[familyWallets[i]]);
         }
+    }
+
+    // oracle switch simulation
+    function deceased() public onlyOwner{
+        isDeceased = true;
+        payout();
     }
 
 }
