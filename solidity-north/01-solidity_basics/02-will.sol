@@ -24,4 +24,6 @@ contract Will {
         require(deceased == true);
         _;
     }
+
+    address payable [] familyWallets;
 }
