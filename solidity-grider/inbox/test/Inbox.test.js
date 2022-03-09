@@ -33,13 +33,17 @@ const web3 = new Web3(ganache.provider())
 
 let accounts
 
+// beforeEach(async () => {
+//     // Get a list of all accounts
+
+//     // promises .then syntax
+//     web3.eth.getAccounts().then((fetchedAccounts) => {
+//         console.log(fetchedAccounts)
+//     })
+// })
+
 beforeEach(async () => {
     // Get a list of all accounts
-
-    // promises .then syntax
-    // web3.eth.getAccounts().then((fetchedAccounts) => {
-    //     console.log(fetchedAccounts)
-    // })
 
     // async await syntax
     accounts = await web3.eth.getAccounts()
