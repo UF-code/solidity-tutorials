@@ -31,15 +31,24 @@ const web3 = new Web3(ganache.provider())
 //     })
 // })
 
-beforeEach(() => {
+let accounts
+
+beforeEach(async () => {
     // Get a list of all accounts
-    web3.eth.getAccounts().then((fetchedAccounts) => {
-        console.log(fetchedAccounts)
-    })
+
+    // promises .then syntax
+    // web3.eth.getAccounts().then((fetchedAccounts) => {
+    //     console.log(fetchedAccounts)
+    // })
+
+    // async await syntax
+    accounts = await web3.eth.getAccounts()
 
     // Use one of the accounts to deploy the contract
 })
 
 describe('Inbox', () => {
-    it('deploys a contract', () => {})
+    it('deploys a contract', () => {
+        console.log(accounts)
+    })
 })
