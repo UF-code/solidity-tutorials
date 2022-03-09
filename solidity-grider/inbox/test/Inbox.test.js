@@ -54,14 +54,21 @@ beforeEach(async () => {
     inbox = await new web3.eth.Contract(JSON.parse(interface))
         .deploy({
             data: bytecode,
-            arguments: ['Hi There!'],
+            arguments: ['Hi There!'], // arguments are passed into contract's constructor method
         })
         .send({ from: accounts[0], gas: '1000000' })
 })
 
 describe('Inbox', () => {
     it('deploys a contract', () => {
-        console.log(accounts)
-        console.log(inbox)
+        // console.log(accounts)
+        // console.log(inbox)
+        assert.ok(inbox.options.address)
+    })
+
+    it('has a default message', async () => {
+        const message = await inbox.methods.message().call()
+
+        assert.equal(message, 'Hi There!')
     })
 })
