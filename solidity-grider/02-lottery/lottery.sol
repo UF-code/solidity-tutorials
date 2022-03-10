@@ -11,6 +11,12 @@ contract Lottery {
         manager = msg.sender;
     }
 
+    // Modifiers
+    modifier restricted() {
+        require(msg.sender == manager);
+        _;
+    }
+
     function enter() public payable {
         require(msg.value > 0.01 ether);
 
@@ -21,7 +27,7 @@ contract Lottery {
         return uint256(keccak256(block.difficulty, now, players));
     }
 
-    function pickWinner() public {
+    function pickWinner() public restricted {
         uint256 index = random() % players.length;
         players[index].transfer(this.balance);
 
