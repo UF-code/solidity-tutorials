@@ -2,7 +2,7 @@ pragma solidity ^0.4.17;
 
 contract Lottery {
     address public manager;
-    address payable[] public players;
+    address[] public players;
 
     // mapping(address => uint256) player;
 
@@ -12,6 +12,12 @@ contract Lottery {
     }
 
     function enter() public payable {
+        require(msg.value > 0.01 ether);
+
         players.push(msg.sender);
+    }
+
+    function random() private view returns (uint256) {
+        return uint256(keccak256(block.difficulty, now, players));
     }
 }
