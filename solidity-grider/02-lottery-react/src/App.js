@@ -8,6 +8,8 @@ class App extends React.Component {
         manager: '',
         players: [],
         balance: '',
+        value: '',
+        message: '',
     }
 
     async componentDidMount() {
@@ -16,6 +18,21 @@ class App extends React.Component {
         const balance = await web3.eth.getBalance(lottery.options.address)
 
         this.setState({ manager: manager, players: players, balance: balance })
+    }
+
+    onSubmit = async (event) => {
+        event.preventDefault()
+
+        const accounts = await web3.eth.getAccounts()
+
+        this.setState({ message: 'Waiting on transaction success...' })
+
+        await lottery.methods.enter().send({
+            from: accounts[0],
+            value: web3.utils.toWei(this.state.value, 'ether'),
+        })
+
+        this.setState({ message: 'You have been entered!' })
     }
 
     render() {
@@ -29,6 +46,24 @@ class App extends React.Component {
                     There are currently {this.state.players.length} people entered, competing to win{' '}
                     {web3.utils.fromWei(this.state.balance, 'ether')} ether!
                 </p>
+                <hr />
+
+                <form onSubmit={this.onSubmit}>
+                    <h4>Want to try your luck?</h4>
+
+                    <div>
+                        <label>Amount of ether to enter </label>
+                        <input
+                            value={this.state.value}
+                            onChange={(event) => this.setState({ value: event.target.value })}
+                        />
+                    </div>
+                    <button>Enter</button>
+                </form>
+
+                <hr />
+
+                <h1> {this.state.message} </h1>
             </div>
         )
     }
