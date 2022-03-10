@@ -17,6 +17,11 @@ contract Lottery {
         _;
     }
 
+    // Getter Function For Players
+    function getAllPlayers() public view returns (address[]) {
+        return players;
+    }
+
     function enter() public payable {
         require(msg.value > 0.01 ether);
 
