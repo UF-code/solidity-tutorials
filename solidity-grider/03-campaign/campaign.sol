@@ -40,9 +40,7 @@ contract Campaign {
         address value,
         address recipient
     ) public restricted {
-
-        // require(approvers[msg.sender]);
-
+        // require(approvers[msg.sender])
         // Request(description, value, recipient, false);
         Request memory newRequest = Request({
             descrtiption: description,
@@ -53,5 +51,14 @@ contract Campaign {
 
         requests.push(newRequest);
     }
+
+    function approveRequest(uint index) public{
+        Request storage request = requests[index];
+
+        require(approvers[msg.sender]);
+        require(!request.approvals[msg.sender]);
+
+        request.approval[msg.sender] = true;
+        request.approvalCount++;
+    }
 }
- 
