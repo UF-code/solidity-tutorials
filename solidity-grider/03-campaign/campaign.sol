@@ -37,7 +37,7 @@ contract Campaign {
         address recipient
     ) public restricted {
         // Request(description, value, recipient, false);
-        Request newRequest = Request({
+        Request memory newRequest = Request({
             descrtiption: description,
             value: value,
             recipient: recipient,
