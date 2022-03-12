@@ -31,5 +31,18 @@ contract Campaign {
         approvers.push(msg.sender);
     }
 
-    function createRequest() public {}
+    function createRequest(
+        string description,
+        address value,
+        address recipient
+    ) public restricted {
+        Request newRequest = Request({
+            descrtiption: description,
+            value: value,
+            recipient: recipient,
+            complete: false
+        });
+
+        requests.push(newRequest);
+    }
 }
