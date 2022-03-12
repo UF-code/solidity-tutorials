@@ -8,6 +8,8 @@ contract Campaign {
         uint256 value;
         address recipient;
         bool complete;
+        uint approvalCount;
+        mapping(address => bool) approvals;
     }
 
     Request[] public requests;
